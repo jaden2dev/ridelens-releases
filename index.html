@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RideLens — 라이딩 영상 텔레메트리 오버레이 편집기</title>
+    <meta
+      name="description"
+      content="DJI 영상과 GPX/FIT 데이터로 속도·경사·파워·심박 오버레이를 입히는 라이더용 영상 편집기. GPS 지연 자동 보정, 터널 감지, 영상 분석 자동 싱크."
+    />
+    <meta property="og:title" content="RideLens — 라이딩 영상 오버레이 편집기" />
+    <meta
+      property="og:description"
+      content="속도·경사·파워·심박을 영상에 입히고 자막·컷편집·4K 내보내기까지. macOS 베타 무료 배포 중."
+    />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+        background: #0d1117;
+        color: #e6edf3;
+        line-height: 1.6;
+      }
+      .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+      .hero { text-align: center; padding: 96px 24px 72px; }
+      .logo {
+        width: 88px; height: 88px; border-radius: 22px; margin-bottom: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      }
+      h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.5px; }
+      .tagline { font-size: 20px; color: #8b949e; margin-top: 16px; }
+      .cta {
+        display: inline-flex; align-items: center; gap: 10px;
+        margin-top: 36px; padding: 16px 32px;
+        background: linear-gradient(180deg, #2f81f7, #1f6feb);
+        color: #fff; font-size: 18px; font-weight: 700;
+        border-radius: 12px; text-decoration: none;
+        box-shadow: 0 4px 20px rgba(31, 111, 235, 0.4);
+        transition: filter 0.15s;
+      }
+      .cta:hover { filter: brightness(1.12); }
+      .cta-sub { margin-top: 14px; font-size: 14px; color: #6e7681; }
+      .features {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px; padding: 40px 0 80px;
+      }
+      .card {
+        background: #161b22; border: 1px solid #21262d; border-radius: 14px;
+        padding: 24px;
+      }
+      .card .ico { font-size: 30px; }
+      .card h3 { font-size: 18px; margin: 12px 0 8px; }
+      .card p { color: #8b949e; font-size: 15px; }
+      .install {
+        background: #161b22; border: 1px solid #21262d; border-radius: 14px;
+        padding: 28px 32px; margin-bottom: 80px;
+      }
+      .install h2 { font-size: 22px; margin-bottom: 16px; }
+      .install ol { padding-left: 22px; color: #c9d1d9; }
+      .install li { margin-bottom: 8px; }
+      .install .warn { color: #ffd479; font-size: 14px; margin-top: 14px; }
+      footer {
+        text-align: center; padding: 40px 24px; color: #6e7681; font-size: 14px;
+        border-top: 1px solid #21262d;
+      }
+      footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="hero">
+      <!-- 로고: ridy.kr에 업로드 후 경로 교체 -->
+      <img class="logo" src="logo.png" alt="RideLens" />
+      <h1>RideLens</h1>
+      <p class="tagline">라이딩 영상에 속도·경사·파워·심박을 입히다</p>
+      <a
+        class="cta"
+        href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip"
+        >⬇ macOS 무료 다운로드 (Apple Silicon)</a
+      >
+      <p class="cta-sub">
+        베타 · 무료 ·
+        <a href="https://github.com/jaden2dev/ridelens-releases/releases/latest" style="color: #6e7681"
+          >다른 버전 / 릴리스 노트</a
+        >
+      </p>
+    </div>
+
+    <div class="wrap">
+      <div class="features">
+        <div class="card">
+          <div class="ico">🏁</div>
+          <h3>GPX · FIT 오버레이</h3>
+          <p>가민·브라이튼·와후 등 모든 사이클 컴퓨터의 FIT, 스트라바 GPX로 속도·경사·파워·심박·케이던스를 영상에 합성.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🎯</div>
+          <h3>자동 싱크 · 지연 보정</h3>
+          <p>영상 움직임을 분석해 GPX와 자동 정렬. 정지·출발·경사의 GPS 지연을 보정하고 터널 구간도 자동 감지.</p>
+        </div>
+        <div class="card">
+          <div class="ico">✂️</div>
+          <h3>컷 편집 · 자막 · 음악</h3>
+          <p>구간 삭제·속도 조절, 자막과 TTS, CC0 배경음악까지. 편집부터 내보내기까지 한 앱에서.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📱</div>
+          <h3>숏츠 · 4K 내보내기</h3>
+          <p>메인 영상에서 9:16 세로 숏츠를 따로 추출. VideoToolbox 하드웨어 가속으로 빠른 4K 출력.</p>
+        </div>
+      </div>
+
+      <div class="install">
+        <h2>설치 방법 (macOS)</h2>
+        <ol>
+          <li>위 버튼으로 zip을 받아 압축을 풉니다.</li>
+          <li><b>RideLens Free.app</b>을 응용 프로그램 폴더로 옮깁니다.</li>
+          <li>처음 실행 시 앱을 <b>우클릭 → "열기" → 다시 "열기"</b>를 누릅니다.</li>
+        </ol>
+        <p class="warn">
+          ⚠️ 서명 전 베타라 첫 실행에서 "확인되지 않은 개발자" 경고가 뜹니다. 우클릭으로 열면 이후에는 그냥 실행됩니다.
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      RideLens · 만든 곳 <a href="https://ridy.kr">ridy.kr</a> — 스트라바 연동 AI 훈련 커뮤니티
+    </footer>
+  </body>
+</html>
