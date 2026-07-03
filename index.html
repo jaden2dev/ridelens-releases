@@ -6,39 +6,25 @@
     <title>RideLens — 라이딩 영상 텔레메트리 오버레이 편집기</title>
     <meta
       name="description"
-      content="DJI 영상과 GPX/FIT 데이터로 속도·경사·파워·심박 오버레이를 입히는 라이더용 영상 편집기. GPS 지연 자동 보정, 터널 감지, 영상 분석 자동 싱크."
+      content="DJI 영상과 GPX/FIT 데이터로 속도·경사·파워·심박 오버레이를 입히는 라이더용 영상 편집기. GPS 지연 자동 보정, 터널 감지, 자동 싱크, 숏츠 제작."
     />
     <meta property="og:title" content="RideLens — 라이딩 영상 오버레이 편집기" />
-    <meta property="og:description" content="속도·경사·파워·심박을 영상에 입히고 자막·컷편집·4K 내보내기까지. macOS 베타 무료." />
+    <meta property="og:description" content="속도·경사·파워·심박을 영상에. 오버레이 자유 편집, 숏츠 간편 제작, 4K 내보내기. macOS 베타 무료." />
     <meta property="og:image" content="ride-poster.jpg" />
     <style>
       * { box-sizing: border-box; margin: 0; padding: 0; }
       :root { --ink: #0a0d12; }
       html { scroll-behavior: smooth; }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-        background: var(--ink); color: #e6edf3; line-height: 1.6; overflow-x: hidden;
-      }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background: var(--ink); color: #e6edf3; line-height: 1.6; overflow-x: hidden; }
       .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
       a { color: inherit; }
-
-      /* reveal 애니메이션 */
       .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
       .reveal.in { opacity: 1; transform: none; }
       @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
-      /* ── Hero ── */
       .hero { position: relative; text-align: center; padding: 80px 24px 0; overflow: hidden; }
-      .hero::before {
-        content: ''; position: absolute; inset: -25% 0 auto 0; height: 680px;
-        background: radial-gradient(58% 100% at 50% 0%, rgba(47, 129, 247, 0.3), transparent 70%);
-        pointer-events: none;
-      }
-      .badge {
-        display: inline-block; padding: 6px 14px; border-radius: 999px;
-        background: rgba(47, 129, 247, 0.14); border: 1px solid rgba(47, 129, 247, 0.4);
-        color: #79c0ff; font-size: 13px; font-weight: 600; margin-bottom: 22px;
-      }
+      .hero::before { content: ''; position: absolute; inset: -25% 0 auto 0; height: 680px; background: radial-gradient(58% 100% at 50% 0%, rgba(47,129,247,0.3), transparent 70%); pointer-events: none; }
+      .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(47,129,247,0.14); border: 1px solid rgba(47,129,247,0.4); color: #79c0ff; font-size: 13px; font-weight: 600; margin-bottom: 22px; }
       .logo { width: 74px; height: 74px; border-radius: 20px; margin-bottom: 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.55); animation: float 5s ease-in-out infinite; }
       @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
       h1 { font-size: 54px; font-weight: 850; letter-spacing: -1px; line-height: 1.05; }
@@ -52,12 +38,7 @@
       .cta.ghost:hover { border-color: #484f58; }
       .cta-sub { margin-top: 14px; font-size: 14px; color: #6e7681; }
 
-      /* window frame */
-      .frame {
-        position: relative; margin: 52px auto 0; max-width: 1000px;
-        border-radius: 14px; overflow: hidden; border: 1px solid #30363d;
-        box-shadow: 0 34px 90px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.03) inset;
-      }
+      .frame { position: relative; margin: 52px auto 0; max-width: 1000px; border-radius: 14px; overflow: hidden; border: 1px solid #30363d; box-shadow: 0 34px 90px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.03) inset; }
       .frame-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #161b22; border-bottom: 1px solid #21262d; }
       .frame-bar i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
       .frame-bar .r { background: #ff5f57; } .frame-bar .y { background: #febc2e; } .frame-bar .g { background: #28c840; }
@@ -72,14 +53,16 @@
       .card:hover { border-color: #30475f; transform: translateY(-4px); }
       .card .ico { font-size: 32px; } .card h3 { font-size: 19px; margin: 14px 0 8px; } .card p { color: #8b949e; font-size: 15px; }
 
-      /* 쇼케이스: 이미지 + 텍스트 좌우 */
       .show { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 44px; align-items: center; margin-top: 64px; }
-      .show:nth-child(odd) .show-txt { order: 2; }
+      .show.rev { grid-template-columns: 0.85fr 1.15fr; }
+      .show.rev .show-txt { order: -1; }
       .show-shot { border-radius: 12px; overflow: hidden; border: 1px solid #30363d; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-      .show-shot img { display: block; width: 100%; }
+      .show-shot img, .show-shot video { display: block; width: 100%; }
       .show-txt h3 { font-size: 24px; font-weight: 800; }
       .show-txt p { color: #8b949e; font-size: 16px; margin-top: 12px; }
-      @media (max-width: 800px) { .show { grid-template-columns: 1fr; gap: 24px; } .show:nth-child(odd) .show-txt { order: 0; } }
+      .show.vert { grid-template-columns: 360px 1fr; }
+      .show.vert .show-shot { max-width: 360px; }
+      @media (max-width: 800px) { .show, .show.rev, .show.vert { grid-template-columns: 1fr; gap: 24px; } .show.rev .show-txt { order: 0; } .show.vert .show-shot { max-width: 300px; margin: 0 auto; } }
 
       .steps { max-width: 720px; margin: 44px auto 0; }
       .step { display: flex; gap: 18px; padding: 18px 0; border-bottom: 1px solid #1c2128; }
@@ -89,14 +72,25 @@
       .warn { max-width: 720px; margin: 24px auto 0; padding: 14px 18px; background: rgba(255,212,121,0.08); border: 1px solid rgba(255,212,121,0.25); border-radius: 10px; color: #ffd479; font-size: 14px; }
 
       .final { text-align: center; }
+
+      /* 배너 광고 슬롯 */
+      .adslot { margin: 0 auto; max-width: 970px; }
+      .ad {
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        min-height: 90px; border: 1px dashed #30363d; border-radius: 12px;
+        background: #0e1218; color: #6e7681; font-size: 14px; text-decoration: none;
+        transition: border-color 0.15s, color 0.15s;
+      }
+      .ad:hover { border-color: #484f58; color: #9aa5b1; }
+      .ad b { color: #8b949e; }
+
       footer { text-align: center; padding: 40px 24px; color: #6e7681; font-size: 14px; border-top: 1px solid #21262d; }
       footer a { color: #58a6ff; text-decoration: none; }
-
       @media (max-width: 640px) { h1 { font-size: 40px; } .tagline { font-size: 18px; } .sec-title { font-size: 27px; } }
     </style>
   </head>
   <body>
-    <!-- ── HERO (라이딩 영상) ── -->
+    <!-- ── HERO ── -->
     <div class="hero">
       <div class="wrap">
         <span class="badge">🚴 라이더를 위한 영상 편집기 · macOS 베타</span>
@@ -109,12 +103,16 @@
           <a class="cta ghost" href="#features">기능 살펴보기</a>
         </div>
         <p class="cta-sub">Apple Silicon Mac · 무료 · Windows 준비 중</p>
-
         <div class="frame reveal">
           <div class="frame-bar"><i class="r"></i><i class="y"></i><i class="g"></i></div>
           <video src="ride.mp4" poster="ride-poster.jpg" autoplay muted loop playsinline></video>
         </div>
       </div>
+    </div>
+
+    <!-- ── 상단 배너 광고 슬롯 ── -->
+    <div class="wrap" style="padding-top: 40px;">
+      <div class="adslot" id="ad-top"></div>
     </div>
 
     <!-- ── FEATURES ── -->
@@ -131,17 +129,29 @@
       </div>
     </section>
 
-    <!-- ── SHOWCASE (실제 화면) ── -->
+    <!-- ── SHOWCASE ── -->
     <section style="background: #0d1117; border-top: 1px solid #161b22; border-bottom: 1px solid #161b22;">
       <div class="wrap">
         <h2 class="sec-title reveal">실제 화면</h2>
+
         <div class="show reveal">
-          <div class="show-shot"><img src="shot-home.png" alt="RideLens 홈 화면 — 프로젝트 목록" /></div>
+          <div class="show-shot"><img src="shot-home.png" alt="RideLens 홈 화면" /></div>
           <div class="show-txt"><h3>프로젝트로 관리</h3><p>라이딩마다 프로젝트로 저장·복원. 영상과 GPX를 끌어다 놓으면 바로 시작되고, 작업은 자동 저장됩니다.</p></div>
         </div>
+
+        <div class="show rev reveal">
+          <div class="show-txt"><h3>오버레이를 내 마음대로</h3><p>속도·파워·케이던스·심박·경사·미니맵·고도 그래프 위젯을 자유롭게 배치·크기 조절. 패널형·심플·HUD·숏츠 전용 등 템플릿을 만들고 골라 쓰세요.</p></div>
+          <div class="show-shot"><img src="shot-templates.png" alt="다양한 오버레이 템플릿" /></div>
+        </div>
+
         <div class="show reveal">
-          <div class="show-shot"><img src="shot-editor.png" alt="RideLens 편집 화면 — 오버레이·타임라인" /></div>
-          <div class="show-txt"><h3>한 화면에서 편집까지</h3><p>오버레이 미리보기, 멀티클립 타임라인, 싱크 보정, 컷·자막·숏츠가 한 화면에. 프리뷰를 보며 바로 다듬습니다.</p></div>
+          <div class="show-shot"><img src="shot-editor.png" alt="RideLens 편집 화면" /></div>
+          <div class="show-txt"><h3>한 화면에서 편집까지</h3><p>오버레이 미리보기, 멀티클립 타임라인, 싱크 보정, 컷·자막이 한 화면에. 프리뷰를 보며 바로 다듬습니다.</p></div>
+        </div>
+
+        <div class="show vert rev reveal">
+          <div class="show-txt"><h3>숏츠도 간편하게</h3><p>메인 영상에서 하이라이트 구간만 잡으면 9:16 세로 숏츠로 자동 추출. 제목·자막·브랜드 배너까지 얹어 SNS에 바로 올릴 수 있습니다.</p></div>
+          <div class="show-shot"><video src="shorts.mp4" poster="shorts-poster.jpg" autoplay muted loop playsinline></video></div>
         </div>
       </div>
     </section>
@@ -167,6 +177,7 @@
         <div class="cta-row reveal">
           <a class="cta primary" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
         </div>
+        <div class="adslot reveal" id="ad-bottom" style="margin-top: 48px;"></div>
       </div>
     </section>
 
@@ -176,12 +187,39 @@
     </footer>
 
     <script>
-      // 스크롤 진입 시 reveal
+      // 스크롤 진입 애니메이션
       const io = new IntersectionObserver(
         (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
         { threshold: 0.12 }
       )
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el))
+
+      // 배너 광고 슬롯 — 나중에 관리자 API에서 배너를 내려주면 채워지고,
+      // 없으면 "광고 문의" 링크를 노출한다. (AdSense 대신 직접 판매)
+      const AD_API = '' // 예: 'https://ridy.kr/api/ads/ridelens'  (배너 목록 JSON 반환 시 채움)
+      const INQUIRY = 'https://ridy.kr' // 광고 문의처
+      function inquiryHTML() {
+        return '<a class="ad" href="' + INQUIRY + '" target="_blank" rel="noopener">' +
+          '📣 <b>이 자리에 광고</b> — 라이더 타깃 배너 문의</a>'
+      }
+      async function loadAds() {
+        let banners = null
+        if (AD_API) {
+          try { const r = await fetch(AD_API); if (r.ok) banners = await r.json() } catch (e) {}
+        }
+        document.querySelectorAll('.adslot').forEach((slot, i) => {
+          const b = banners && banners[i % banners.length]
+          if (b && b.image && b.link) {
+            slot.innerHTML =
+              '<a class="ad" style="padding:0;border-style:solid;overflow:hidden" href="' + b.link +
+              '" target="_blank" rel="noopener sponsored"><img src="' + b.image +
+              '" alt="' + (b.alt || '광고') + '" style="max-width:100%;display:block" /></a>'
+          } else {
+            slot.innerHTML = inquiryHTML()
+          }
+        })
+      }
+      loadAds()
     </script>
   </body>
 </html>
