@@ -87,17 +87,6 @@
 
       .final { text-align: center; }
 
-      /* 배너 광고 슬롯 */
-      .adslot { margin: 0 auto; max-width: 970px; }
-      .ad {
-        display: flex; align-items: center; justify-content: center; gap: 10px;
-        min-height: 90px; border: 1px dashed #30363d; border-radius: 12px;
-        background: #0e1218; color: #6e7681; font-size: 14px; text-decoration: none;
-        transition: border-color 0.15s, color 0.15s;
-      }
-      .ad:hover { border-color: #484f58; color: #9aa5b1; }
-      .ad b { color: #8b949e; }
-
       footer { text-align: center; padding: 40px 24px; color: #6e7681; font-size: 14px; border-top: 1px solid #21262d; }
       footer a { color: #58a6ff; text-decoration: none; }
       @media (max-width: 640px) { h1 { font-size: 40px; } .tagline { font-size: 18px; } .sec-title { font-size: 27px; } }
@@ -122,11 +111,6 @@
           <video src="ride.mp4" poster="ride-poster.jpg" autoplay muted loop playsinline></video>
         </div>
       </div>
-    </div>
-
-    <!-- ── 상단 배너 광고 슬롯 ── -->
-    <div class="wrap" style="padding-top: 40px;">
-      <div class="adslot" id="ad-top"></div>
     </div>
 
     <!-- ── FEATURES ── -->
@@ -205,7 +189,6 @@
         <div class="cta-row reveal">
           <a class="cta primary" onclick="rlDownload('final')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
         </div>
-        <div class="adslot reveal" id="ad-bottom" style="margin-top: 48px;"></div>
       </div>
     </section>
 
@@ -221,33 +204,6 @@
         { threshold: 0.12 }
       )
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el))
-
-      // 배너 광고 슬롯 — 나중에 관리자 API에서 배너를 내려주면 채워지고,
-      // 없으면 "광고 문의" 링크를 노출한다. (AdSense 대신 직접 판매)
-      const AD_API = '' // 예: 'https://ridy.kr/api/ads/ridelens'  (배너 목록 JSON 반환 시 채움)
-      const INQUIRY = 'https://ridy.kr' // 광고 문의처
-      function inquiryHTML() {
-        return '<a class="ad" href="' + INQUIRY + '" target="_blank" rel="noopener">' +
-          '📣 <b>이 자리에 광고</b> — 라이더 타깃 배너 문의</a>'
-      }
-      async function loadAds() {
-        let banners = null
-        if (AD_API) {
-          try { const r = await fetch(AD_API); if (r.ok) banners = await r.json() } catch (e) {}
-        }
-        document.querySelectorAll('.adslot').forEach((slot, i) => {
-          const b = banners && banners[i % banners.length]
-          if (b && b.image && b.link) {
-            slot.innerHTML =
-              '<a class="ad" style="padding:0;border-style:solid;overflow:hidden" href="' + b.link +
-              '" target="_blank" rel="noopener sponsored"><img src="' + b.image +
-              '" alt="' + (b.alt || '광고') + '" style="max-width:100%;display:block" /></a>'
-          } else {
-            slot.innerHTML = inquiryHTML()
-          }
-        })
-      }
-      loadAds()
     </script>
   </body>
 </html>
