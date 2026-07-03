@@ -11,6 +11,18 @@
     <meta property="og:title" content="RideLens — 라이딩 영상 오버레이 편집기" />
     <meta property="og:description" content="속도·경사·파워·심박을 영상에. 오버레이 자유 편집, 숏츠 간편 제작, 4K 내보내기. macOS 베타 무료." />
     <meta property="og:image" content="ride-poster.jpg" />
+    <!-- Google Analytics (앱과 동일 속성) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1PDHHTMY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() { dataLayer.push(arguments) }
+      gtag('js', new Date())
+      gtag('config', 'G-FC1PDHHTMY')
+      // 다운로드 버튼 클릭 추적
+      function rlDownload(where) {
+        try { gtag('event', 'download_click', { location: where, platform: 'mac' }) } catch (e) {}
+      }
+    </script>
     <style>
       * { box-sizing: border-box; margin: 0; padding: 0; }
       :root { --ink: #0a0d12; }
@@ -99,7 +111,7 @@
         <h1>라이딩 영상에<br /><span class="grad">라이딩 정보를 편하게</span></h1>
         <p class="tagline">속도·경사·파워·심박 같은 라이딩 데이터를 영상 위에. GPX·FIT만 있으면 됩니다.</p>
         <div class="cta-row">
-          <a class="cta primary" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
+          <a class="cta primary" onclick="rlDownload('hero')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
           <a class="cta ghost" href="#features">기능 살펴보기</a>
         </div>
         <p class="cta-sub">Apple Silicon Mac · 무료 · Windows 준비 중</p>
@@ -189,7 +201,7 @@
         <h2 class="sec-title reveal">지금 내 라이딩을 꺼내보세요</h2>
         <p class="sec-desc reveal">무료로 시작하고, 마음에 들면 함께 키워요.</p>
         <div class="cta-row reveal">
-          <a class="cta primary" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
+          <a class="cta primary" onclick="rlDownload('final')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
         </div>
         <div class="adslot reveal" id="ad-bottom" style="margin-top: 48px;"></div>
       </div>
