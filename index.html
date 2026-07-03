@@ -60,7 +60,9 @@
       .sec-title { text-align: center; font-size: 34px; font-weight: 800; letter-spacing: -0.5px; }
       .sec-desc { text-align: center; color: #8b949e; font-size: 17px; margin-top: 12px; }
 
-      .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 48px; }
+      .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+      @media (max-width: 860px) { .features { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
       .card { background: #12161c; border: 1px solid #21262d; border-radius: 16px; padding: 26px; transition: border-color 0.15s, transform 0.15s; }
       .card:hover { border-color: #30475f; transform: translateY(-4px); }
       .card .ico { font-size: 32px; } .card h3 { font-size: 19px; margin: 14px 0 8px; } .card p { color: #8b949e; font-size: 15px; }
