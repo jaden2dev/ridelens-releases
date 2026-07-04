@@ -6,10 +6,10 @@
     <title>RideLens — 라이딩 영상 텔레메트리 오버레이 편집기</title>
     <meta
       name="description"
-      content="라이딩 영상에 라이딩 정보(속도·경사·파워·심박)를 편하게 표시하는 편집기. GPX/FIT 자동 싱크, 하이라이트 자동 추출, 1분 숏츠, 4K 내보내기."
+      content="라이딩 영상에 라이딩 정보(속도·경사·파워·심박)를 편하게 표시하는 편집기. GPX/FIT 자동 싱크, 하이라이트 자동 추출, 1분 숏츠, 4K 내보내기. macOS·Windows 무료."
     />
     <meta property="og:title" content="RideLens — 라이딩 영상 오버레이 편집기" />
-    <meta property="og:description" content="속도·경사·파워·심박을 영상에. 오버레이 자유 편집, 숏츠 간편 제작, 4K 내보내기. macOS 베타 무료." />
+    <meta property="og:description" content="속도·경사·파워·심박을 영상에. 오버레이 자유 편집, 숏츠 간편 제작, 4K 내보내기. macOS·Windows 베타 무료." />
     <meta property="og:image" content="ride-poster.jpg" />
     <!-- Google Analytics (앱과 동일 속성) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1PDHHTMY"></script>
@@ -19,8 +19,8 @@
       gtag('js', new Date())
       gtag('config', 'G-FC1PDHHTMY')
       // 다운로드 버튼 클릭 추적
-      function rlDownload(where) {
-        try { gtag('event', 'download_click', { location: where, platform: 'mac' }) } catch (e) {}
+      function rlDownload(where, platform) {
+        try { gtag('event', 'download_click', { location: where, platform: platform || 'mac' }) } catch (e) {}
       }
     </script>
     <style>
@@ -96,16 +96,17 @@
     <!-- ── HERO ── -->
     <div class="hero">
       <div class="wrap">
-        <span class="badge">🚴 라이더를 위한 영상 편집기 · macOS 베타</span>
+        <span class="badge">🚴 라이더를 위한 영상 편집기 · macOS · Windows 베타</span>
         <br />
         <img class="logo" src="logo.png" alt="RideLens" />
         <h1>라이딩 영상에<br /><span class="grad">라이딩 정보를 편하게</span></h1>
         <p class="tagline">속도·경사·파워·심박 같은 라이딩 데이터를 영상 위에. GPX·FIT만 있으면 됩니다.</p>
         <div class="cta-row">
-          <a class="cta primary" onclick="rlDownload('hero')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
+          <a class="cta primary" onclick="rlDownload('hero','mac')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip"> macOS 다운로드</a>
+          <a class="cta primary" onclick="rlDownload('hero','win')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-win-x64-Setup.exe">🪟 Windows 다운로드</a>
           <a class="cta ghost" href="#features">기능 살펴보기</a>
         </div>
-        <p class="cta-sub">Apple Silicon Mac · 무료 · Windows 준비 중</p>
+        <p class="cta-sub">macOS (Apple Silicon) · Windows (x64) · 무료</p>
         <div class="frame reveal">
           <div class="frame-bar"><i class="r"></i><i class="y"></i><i class="g"></i></div>
           <video src="ride.mp4" poster="ride-poster.jpg" autoplay muted loop playsinline></video>
@@ -173,11 +174,10 @@
       <div class="wrap">
         <h2 class="sec-title reveal">설치는 30초</h2>
         <div class="steps reveal">
-          <div class="step"><span class="n">1</span><div><b>다운로드</b><p>위 버튼으로 zip을 받아 압축을 풉니다.</p></div></div>
-          <div class="step"><span class="n">2</span><div><b>이동</b><p>RideLens Free.app을 응용 프로그램 폴더로 옮깁니다.</p></div></div>
-          <div class="step"><span class="n">3</span><div><b>실행</b><p>처음엔 앱을 우클릭 → "열기" → 다시 "열기". 이후에는 그냥 실행됩니다.</p></div></div>
+          <div class="step"><span class="n"></span><div><b>macOS</b><p>zip을 받아 압축을 풀고 <b>RideLens Free.app</b>을 응용 프로그램 폴더로. 처음엔 앱 우클릭 → "열기" → 다시 "열기".</p></div></div>
+          <div class="step"><span class="n">🪟</span><div><b>Windows</b><p><b>Setup.exe</b>를 실행하면 자동 설치됩니다. SmartScreen 경고가 뜨면 "추가 정보" → "실행".</p></div></div>
         </div>
-        <p class="warn reveal">⚠️ 서명 전 베타라 첫 실행 시 "확인되지 않은 개발자" 경고가 뜹니다. 우클릭으로 한 번만 열면 됩니다.</p>
+        <p class="warn reveal">⚠️ 서명 전 베타라 첫 실행 시 보안 경고가 뜰 수 있어요. 위 방법으로 한 번만 열면 됩니다. Windows 버전은 갓 나온 베타 — 문제가 있으면 꼭 제보해주세요!</p>
       </div>
     </section>
 
@@ -187,7 +187,8 @@
         <h2 class="sec-title reveal">지금 내 라이딩을 꺼내보세요</h2>
         <p class="sec-desc reveal">무료로 시작하고, 마음에 들면 함께 키워요.</p>
         <div class="cta-row reveal">
-          <a class="cta primary" onclick="rlDownload('final')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip">⬇ 무료 다운로드</a>
+          <a class="cta primary" onclick="rlDownload('final','mac')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip"> macOS 다운로드</a>
+          <a class="cta primary" onclick="rlDownload('final','win')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-win-x64-Setup.exe">🪟 Windows 다운로드</a>
         </div>
       </div>
     </section>
