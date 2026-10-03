@@ -1,0 +1,50 @@
+name: Verify desktop automatic update
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Candidate release tag
+        required: true
+        default: v0.3.5
+permissions:
+  contents: read
+jobs:
+  windows-update:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Prepare isolated update test
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_TAG: ${{ inputs.target }}
+        run: |
+          New-Item -ItemType Directory old, candidate, results -Force | Out-Null
+          gh release download v0.3.4 --repo jaden2dev/ridelens-releases --pattern '*.exe' --dir old
+          if ($LASTEXITCODE -ne 0) { throw 'Old release download failed' }
+          gh release download $env:TARGET_TAG --repo jaden2dev/ridelens-releases --pattern '*.exe' --pattern '*.yml' --pattern '*.blockmap' --dir candidate
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate download failed' }
+          npm install --no-save playwright-core@1.61.1 @electron/asar@3.4.1 js-yaml@4.1.0
+          if ($LASTEXITCODE -ne 0) { throw 'Dependencies failed' }
+          $installer = (Get-ChildItem old -Filter *.exe | Select-Object -First 1).FullName
+          $process = Start-Process $installer -ArgumentList '/S', '/D=C:\ridy-update-test' -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw 'Old installer failed' }
+      - name: Verify notice download installation and relaunch
+        shell: pwsh
+        env:
+          TARGET_TAG: ${{ inputs.target }}
+        run: |
+          $env:UPDATE_TARGET_VERSION = $env:TARGET_TAG.TrimStart('v')
+          node verification/verify-release-assets.mjs candidate
+          if ($LASTEXITCODE -ne 0) { throw 'Artifact verification failed' }
+          node verification/e2e-packaged-update.mjs 'C:\ridy-update-test\RideLens Free.exe' candidate results
+          if ($LASTEXITCODE -ne 0) { throw 'Automatic update failed' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-automatic-update
+          path: results
