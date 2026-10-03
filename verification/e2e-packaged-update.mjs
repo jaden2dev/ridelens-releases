@@ -8,17 +8,19 @@ import http from 'node:http'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 
-const [executable, artifactDirectory, outputDirectory] = process.argv.slice(2).map((p) => path.resolve(p))
+let [executable, artifactDirectory, outputDirectory] = process.argv.slice(2).map((p) => path.resolve(p))
 const targetVersion = process.env.UPDATE_TARGET_VERSION || '0.3.4'
 const isWindows = process.platform === 'win32'
+const sameVersion = process.env.UPDATE_ALLOW_SAME_VERSION === '1'
 const archive = isWindows
   ? path.join(path.dirname(executable), 'resources/app.asar')
   : path.resolve(executable, '../../Resources/app.asar')
+const initialArchiveInode = fs.statSync(archive).ino
 const installedVersion = () => {
   asar.uncache(archive)
   return JSON.parse(asar.extractFile(archive, 'package.json').toString()).version
 }
-assert.notEqual(installedVersion(), targetVersion, 'The disposable app must begin at the previous version')
+if (!sameVersion) assert.notEqual(installedVersion(), targetVersion, 'The disposable app must begin at the previous version')
 fs.mkdirSync(outputDirectory, { recursive: true })
 const downloads = []
 const server = http.createServer((req, res) => {
@@ -53,13 +55,14 @@ async function announce(page, version) {
     body: JSON.stringify({ tag_name: `v${version}`, html_url: 'https://github.com/jaden2dev/ridelens-releases', body: 'Update validation.' }),
   }))
   await page.reload()
-  await page.getByRole('button', { name: '⚡ 지금 업데이트', exact: true }).waitFor({ timeout: 20000 })
+  await page.getByRole('button', { name: /^(?:⚡ )?지금 업데이트$/, exact: false }).waitFor({ timeout: 20000 })
   assert.equal(await page.getByRole('button', { name: '📄 릴리스 노트', exact: true }).count(), 0)
 }
 try {
   const first = await launch()
   app = first.current
   const oldPid = app.process().pid
+  const previousExecutable = executable
   await app.evaluate(async ({ app }, config) => {
     const { createRequire } = process.mainModule.require('node:module')
     const requireApp = createRequire(app.getAppPath() + '/package.json')
@@ -70,20 +73,22 @@ try {
     } else {
       const originalFetch = globalThis.fetch
       globalThis.fetch = (input, ...args) => originalFetch(
-        String(input).includes('/releases/latest/download/RideLens-Free-mac-arm64.zip')
-          ? config.feed + 'RideLens-Free-mac-arm64.zip' : input,
+        (/\/releases\/latest\/download\/(?:RideLens|Ridy-Studio)-Free-mac-arm64\.zip$/).test(String(input))
+          ? config.feed + String(input).split('/').pop() : input,
         ...args,
       )
     }
   }, { isWindows, feed })
-  await announce(first.page, targetVersion)
+  const announcement = targetVersion.split('.').map(Number)
+  if (sameVersion) announcement[2]++
+  await announce(first.page, announcement.join('.'))
   await first.page.screenshot({ path: path.join(outputDirectory, 'update-notice.png') })
   console.log('Verified free-build update notice; starting real download and installation')
-  await first.page.getByRole('button', { name: '⚡ 지금 업데이트', exact: true }).click()
+  await first.page.getByRole('button', { name: /^(?:⚡ )?지금 업데이트$/, exact: false }).click()
   const deadline = Date.now() + 180000
   let updated = false
   while (Date.now() < deadline) {
-    try { updated = installedVersion() === targetVersion } catch { /* installer swapping files */ }
+    try { updated = installedVersion() === targetVersion && (!sameVersion || (downloads.length > 0 && fs.statSync(archive).ino !== initialArchiveInode)) } catch { /* installer swapping files */ }
     if (updated) break
     if (!first.page.isClosed()) {
       const text = await first.page.locator('.modal-back').allTextContents().catch(() => [])
@@ -92,6 +97,15 @@ try {
     await new Promise((resolve) => setTimeout(resolve, 1000))
   }
   assert.equal(updated, true, 'Automatic installer did not replace the previous version')
+  // Product branding can change the executable name while the installation directory stays stable.
+  if (!isWindows) {
+    const info = path.resolve(archive, '../../Info.plist')
+    const binary = spawnSync('/usr/libexec/PlistBuddy', ['-c', 'Print :CFBundleExecutable', info], {encoding:'utf8'}).stdout.trim()
+    assert(binary); executable = path.join(path.dirname(executable), binary)
+  } else {
+    const meta = JSON.parse(asar.extractFile(archive, 'package.json').toString())
+    executable = path.join(path.dirname(executable), (meta.productName || 'Ridy Studio') + '.exe')
+  }
   // Verify the actual relaunch, rather than manually starting the updated app.
   let relaunched = false
   let processes = ''
@@ -108,7 +122,7 @@ try {
       processes = result.stdout.split('\n').filter((line) => {
         const match = /^\s*(\d+)\s+(.+)$/.exec(line)
         return match && Number(match[1]) !== oldPid &&
-          (match[2] === executable || match[2].startsWith(executable + ' '))
+          [executable, previousExecutable].some(file => match[2] === file || match[2].startsWith(file + ' '))
       }).join('\n')
       relaunched = processes.length > 0
     }
@@ -133,7 +147,7 @@ try {
   const next = await launch()
   app = next.current
   const parts = targetVersion.split('.').map(Number)
-  parts[2]++
+  parts[2] += sameVersion ? 2 : 1
   await announce(next.page, parts.join('.'))
   await next.page.screenshot({ path: path.join(outputDirectory, 'new-build-update-gate.png') })
   console.log('Verified new packaged free build still offers automatic updates')
