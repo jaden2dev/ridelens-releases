@@ -5,7 +5,11 @@ on:
       target:
         description: Candidate release tag
         required: true
-        default: v0.3.5
+        default: v0.3.8
+      baseline:
+        description: Previous release tag
+        required: true
+        default: v0.3.4
 permissions:
   contents: write
 jobs:
@@ -22,9 +26,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_TAG: ${{ inputs.target }}
+          BASELINE_TAG: ${{ inputs.baseline }}
         run: |
           New-Item -ItemType Directory old, candidate, results -Force | Out-Null
-          gh release download v0.3.4 --repo jaden2dev/ridelens-releases --pattern '*.exe' --dir old
+          gh release download $env:BASELINE_TAG --repo jaden2dev/ridelens-releases --pattern '*.exe' --dir old
           if ($LASTEXITCODE -ne 0) { throw 'Old release download failed' }
           gh release download $env:TARGET_TAG --repo jaden2dev/ridelens-releases --pattern '*.exe' --pattern '*.yml' --pattern '*.blockmap' --dir candidate
           if ($LASTEXITCODE -ne 0) { throw 'Candidate download failed' }
@@ -41,7 +46,9 @@ jobs:
           $env:UPDATE_TARGET_VERSION = $env:TARGET_TAG.TrimStart('v')
           node verification/verify-release-assets.mjs candidate
           if ($LASTEXITCODE -ne 0) { throw 'Artifact verification failed' }
-          node verification/e2e-packaged-update.mjs 'C:\ridy-update-test\RideLens Free.exe' candidate results
+          $executable = @('C:\ridy-update-test\Ridy Studio.exe', 'C:\ridy-update-test\RideLens Free.exe') | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $executable) { throw 'Installed application was not found' }
+          node verification/e2e-packaged-update.mjs $executable candidate results
           if ($LASTEXITCODE -ne 0) { throw 'Automatic update failed' }
       - uses: actions/upload-artifact@v4
         if: always()
