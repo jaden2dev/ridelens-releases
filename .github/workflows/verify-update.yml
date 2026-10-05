@@ -12,6 +12,9 @@ on:
         default: v0.3.4
 permissions:
   contents: write
+env:
+  # Native installer/relaunch checks run only on disposable remote desktops.
+  RIDELENS_E2E_VISIBLE: "1"
 jobs:
   windows-update:
     runs-on: windows-latest
@@ -54,4 +57,46 @@ jobs:
         if: always()
         with:
           name: windows-automatic-update
+          path: results
+  macos-update:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Prepare isolated ARM64 update test
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_TAG: ${{ inputs.target }}
+          BASELINE_TAG: ${{ inputs.baseline }}
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = arm64
+          mkdir -p old candidate old-app candidate-check results
+          gh release download "$BASELINE_TAG" --repo jaden2dev/ridelens-releases --pattern 'Ridy-Studio-Free-mac-arm64.zip' --dir old
+          gh release download "$TARGET_TAG" --repo jaden2dev/ridelens-releases --pattern '*-Free-mac-arm64.zip' --dir candidate
+          npm install --no-save playwright-core@1.61.1 @electron/asar@3.4.1
+          ditto -x -k old/Ridy-Studio-Free-mac-arm64.zip old-app
+          ditto -x -k candidate/Ridy-Studio-Free-mac-arm64.zip candidate-check
+          apps=(candidate-check/*.app)
+          codesign --verify --deep --strict "${apps[0]}"
+          shasum -a 256 candidate/*.zip > results/candidate-sha256.txt
+      - name: Verify notice download installation and relaunch
+        shell: bash
+        env:
+          TARGET_TAG: ${{ inputs.target }}
+        run: |
+          set -euo pipefail
+          export UPDATE_TARGET_VERSION="${TARGET_TAG#v}"
+          apps=(old-app/*.app)
+          app_path="${apps[0]}"
+          executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app_path/Contents/Info.plist")
+          node verification/e2e-packaged-update.mjs "$app_path/Contents/MacOS/$executable" candidate results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: macos-automatic-update
           path: results
