@@ -46,6 +46,8 @@ const launch = async () => {
     localStorage.setItem('lang', 'ko')
     localStorage.setItem('welcomeSeen', '1')
     localStorage.setItem('guideDoneV2', '1')
+    localStorage.setItem('helpHintSeen', '1')
+    localStorage.setItem('lowSpecNoticeV1', '1')
   })
   return { current, page }
 }
