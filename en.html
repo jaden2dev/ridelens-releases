@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RIDY Studio — Telemetry Overlay Editor for Cycling Videos</title>
+    <link rel="icon" type="image/png" href="logo.png?brand=ridy-studio-20261023" />
+    <link rel="apple-touch-icon" href="logo.png?brand=ridy-studio-20261023" />
+    <title>Ridy Studio — Telemetry Overlay Editor for Cycling Videos</title>
     <meta
       name="description"
       content="Overlay speed, gradient, power and heart rate on your cycling videos. Auto GPX/FIT sync, auto highlights, 1-minute Shorts, 4K export. Free for macOS and Windows."
     />
-    <meta property="og:title" content="RIDY Studio — Telemetry Overlay Editor for Cycling Videos" />
+    <meta property="og:title" content="Ridy Studio — Telemetry Overlay Editor for Cycling Videos" />
     <meta property="og:description" content="Speed, gradient, power and heart rate on your video. Custom overlays, easy Shorts, 4K export. Free beta for macOS and Windows." />
-    <meta property="og:image" content="ride-poster.jpg" />
+    <meta property="og:image" content="https://jaden2dev.github.io/ridelens-releases/logo.png?brand=ridy-studio-20261023" />
     <!-- Google Analytics (앱과 동일 속성) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1PDHHTMY"></script>
     <script>
@@ -72,6 +74,9 @@
       .show.rev .show-txt { order: -1; }
       .show-shot { border-radius: 12px; overflow: hidden; border: 1px solid #30363d; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
       .show-shot img, .show-shot video { display: block; width: 100%; }
+      .legacy-note { display: block; margin-top: 14px; color: #8b949e; font-size: 13px; text-align: center; }
+      .legacy-note.install-note { margin-top: 8px; text-align: left; }
+      .install-command { display: inline-block; max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
       .show-txt h3 { font-size: 24px; font-weight: 800; }
       .show-txt p { color: #8b949e; font-size: 16px; margin-top: 12px; }
       .show.vert { grid-template-columns: 360px 1fr; }
@@ -99,12 +104,12 @@
       <div class="wrap">
         <span class="badge">🚴 The video editor for cyclists · macOS · Windows beta</span>
         <br />
-        <img class="logo" src="logo.png" alt="RIDY Studio" />
-        <h1><span class="grad">RIDY Studio</span></h1>
+        <img class="logo" src="logo.png?brand=ridy-studio-20261023" alt="Ridy Studio" />
+        <h1><span class="grad">Ridy Studio</span></h1>
         <p class="tagline">Put speed, gradient, power and heart rate right on your cycling videos. All you need is a GPX or FIT file.</p>
         <div class="cta-row">
-          <a class="cta primary" onclick="rlDownload('hero','mac')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip"> Download for macOS</a>
-          <a class="cta primary" onclick="rlDownload('hero','win')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-win-x64-Setup.exe">🪟 Download for Windows</a>
+          <a class="cta primary" onclick="rlDownload('hero','mac')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/Ridy-Studio-Free-mac-arm64.zip"> Download for macOS</a>
+          <a class="cta primary" onclick="rlDownload('hero','win')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/Ridy-Studio-Free-win-x64-Setup.exe">🪟 Download for Windows</a>
           <a class="cta ghost" href="#features">See features</a>
         </div>
         <p class="cta-sub">macOS (Apple Silicon) · Windows (x64) · Free</p>
@@ -120,7 +125,7 @@
     <section id="features">
       <div class="wrap">
         <h2 class="sec-title reveal">Turn rides into content</h2>
-        <p class="sec-desc reveal">Drop in your footage and ride data — RIDY Studio does the rest.</p>
+        <p class="sec-desc reveal">Drop in your footage and ride data — Ridy Studio does the rest.</p>
         <div class="features">
           <div class="card reveal"><div class="ico">🏁</div><h3>GPX · FIT overlays</h3><p>Works with FIT files from any bike computer (Garmin, Wahoo, Bryton) and Strava GPX. Composites speed, gradient, power, heart rate and cadence onto your video.</p></div>
           <div class="card reveal"><div class="ico">🎯</div><h3>Auto sync · GPS lag fix</h3><p>Analyzes video motion to align GPX automatically. Corrects GPS lag at stops, starts and climbs — even detects tunnels.</p></div>
@@ -138,17 +143,17 @@
         <h2 class="sec-title reveal">See it in action</h2>
 
         <div class="show reveal">
-          <div class="show-shot"><img src="shot-home.png" alt="RIDY Studio home screen" /></div>
+          <div class="show-shot"><img src="shot-home.png?brand=ridy-studio-20261023" alt="Ridy Studio home screen" /></div>
           <div class="show-txt"><h3>Organized as projects</h3><p>Each ride is a project — drag in video and GPX to start, everything auto-saves and restores.</p></div>
         </div>
 
         <div class="show rev reveal">
           <div class="show-txt"><h3>Overlays, your way</h3><p>Freely place and resize speed, power, cadence, heart rate, gradient, minimap and elevation widgets. Build and switch between templates — panel, minimal, HUD, Shorts.</p></div>
-          <div class="show-shot"><img src="shot-templates.png" alt="다양한 오버레이 템플릿" /></div>
+          <div class="show-shot"><img src="shot-templates.png?brand=ridy-studio-20261023" alt="다양한 오버레이 템플릿" /></div>
         </div>
 
         <div class="show reveal">
-          <div class="show-shot"><img src="shot-editor.png" alt="RIDY Studio editor screen" /></div>
+          <div class="show-shot"><img src="shot-editor.png?brand=ridy-studio-20261023" alt="Ridy Studio editor screen" /></div>
           <div class="show-txt"><h3>Edit on one screen</h3><p>Overlay preview, multi-clip timeline, sync correction, cuts and captions — all in one view, refined live.</p></div>
         </div>
 
@@ -176,7 +181,7 @@
       <div class="wrap">
         <h2 class="sec-title reveal">Install in 30 seconds</h2>
         <div class="steps reveal">
-          <div class="step"><span class="n"></span><div><b>macOS</b><p><b>① Unzip → ② Drag RideLens Free.app to Applications → ③ Paste this line into Terminal</b> — first launch only.<br /><code style="background:#161b22;padding:4px 8px;border-radius:6px;display:inline-block;margin-top:6px;user-select:all;">xattr -cr "/Applications/RideLens Free.app" && open "/Applications/RideLens Free.app"</code><br /><span style="color:#6e7681;">💡 If the app is elsewhere, type <code style="background:#161b22;padding:1px 5px;border-radius:4px;">xattr -cr </code> then drag the app into the Terminal window to autofill its path.</span><br /><span style="color:#6e7681;">Prefer no Terminal? Double-click the app, dismiss the warning, then <b>System Settings → Privacy &amp; Security</b> → click <b>"Open Anyway"</b> as shown below</span><br /><a href="x-apple.systempreferences:com.apple.preference.security?General" style="display:inline-block;margin-top:8px;padding:8px 14px;border-radius:8px;background:#161b22;border:1px solid #30363d;color:#79c0ff;font-size:13px;font-weight:600;text-decoration:none;">⚙️ Open Privacy &amp; Security</a> <span style="color:#6e7681;font-size:12px;">(opens System Settings directly on a Mac)</span><span style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;"><img src="gatekeeper-guide.png" alt="시스템 설정 → 개인정보 보호 및 보안 → 그래도 열기" style="width:100%;max-width:480px;border-radius:10px;border:1px solid #30363d;" /><img src="gatekeeper-guide-2.png" alt="확인 대화상자에서 그래도 열기" style="width:100%;max-width:220px;border-radius:10px;border:1px solid #30363d;" /></span></p></div></div>
+          <div class="step"><span class="n"></span><div><b>macOS</b><p><b>① Unzip → ② Drag Ridy Studio.app to Applications → ③ Paste this line into Terminal</b> — first launch only.<br /><code class="install-command" style="background:#161b22;padding:4px 8px;border-radius:6px;margin-top:6px;user-select:all;">xattr -cr "/Applications/Ridy Studio.app" && open "/Applications/Ridy Studio.app"</code><br /><span style="color:#6e7681;">💡 If the app is elsewhere, type <code style="background:#161b22;padding:1px 5px;border-radius:4px;">xattr -cr </code> then drag the app into the Terminal window to autofill its path.</span><br /><span style="color:#6e7681;">Prefer no Terminal? Double-click the app, dismiss the warning, then <b>System Settings → Privacy &amp; Security</b> → click <b>"Open Anyway"</b> as shown below</span><br /><a href="x-apple.systempreferences:com.apple.preference.security?General" style="display:inline-block;margin-top:8px;padding:8px 14px;border-radius:8px;background:#161b22;border:1px solid #30363d;color:#79c0ff;font-size:13px;font-weight:600;text-decoration:none;">⚙️ Open Privacy &amp; Security</a> <span style="color:#6e7681;font-size:12px;">(opens System Settings directly on a Mac)</span><span style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;"><img src="gatekeeper-guide.png" alt="시스템 설정 → 개인정보 보호 및 보안 → 그래도 열기" style="width:100%;max-width:480px;border-radius:10px;border:1px solid #30363d;" /><img src="gatekeeper-guide-2.png" alt="확인 대화상자에서 그래도 열기" style="width:100%;max-width:220px;border-radius:10px;border:1px solid #30363d;" /></span><span class="legacy-note install-note">The guide images show an earlier version. The current app filename is Ridy Studio.app.</span></p></div></div>
           <div class="step"><span class="n">🪟</span><div><b>Windows</b><p>Run <b>Setup.exe</b>. If the blue SmartScreen window appears, <b>click "More info" first</b> — that reveals the hidden <b>"Run anyway"</b> button (first launch only). The warning appears because the beta is not code-signed yet; nothing is wrong with the app.<span style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;"><img src="smartscreen-guide.png" alt="추가 정보 클릭 전 — 실행 안 함만 보임" style="width:100%;max-width:340px;border-radius:10px;border:1px solid #30363d;" /><img src="smartscreen-guide-2.png" alt="추가 정보 클릭 후 — 실행 버튼 나타남" style="width:100%;max-width:340px;border-radius:10px;border:1px solid #30363d;" /></span><span style="color:#6e7681;display:block;margin-top:4px;">← Only after clicking More info does the Run anyway button appear →</span></p></div></div>
         </div>
                 <div class="reveal" style="max-width:720px;margin:28px auto 0;padding:18px 22px;background:#12161c;border:1px solid #21262d;border-radius:12px;font-size:14px;line-height:1.8;color:#8b949e;">
@@ -184,7 +189,7 @@
           Windows 10/11 (64-bit) · macOS (Apple Silicon) · 8GB+ RAM (16GB for 4K) · SSD recommended<br />
           <span style="color:#6e7681;font-size:13px;">A hardware encoder (NVIDIA / Intel / AMD) makes export fast. It also works in software-only mode — on lower-end PCs, set export quality to <b>1080p</b>.</span>
         </div>
-        <p class="warn reveal">⚠️ RIDY Studio is a beta and not yet code-signed (Apple notarization / Windows signing) — hence the macOS and SmartScreen warnings. Open it once with the steps above and it runs normally from then on. Proper signing is on the way. Please report any issues!</p>
+        <p class="warn reveal">⚠️ Ridy Studio is a beta and not yet code-signed (Apple notarization / Windows signing) — hence the macOS and SmartScreen warnings. Open it once with the steps above and it runs normally from then on. Proper signing is on the way. Please report any issues!</p>
       </div>
     </section>
 
@@ -194,8 +199,8 @@
         <h2 class="sec-title reveal">Bring your rides to life</h2>
         <p class="sec-desc reveal">Start free — and help shape what comes next.</p>
         <div class="cta-row reveal">
-          <a class="cta primary" onclick="rlDownload('final','mac')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-mac-arm64.zip"> Download for macOS</a>
-          <a class="cta primary" onclick="rlDownload('final','win')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/RideLens-Free-win-x64-Setup.exe">🪟 Download for Windows</a>
+          <a class="cta primary" onclick="rlDownload('final','mac')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/Ridy-Studio-Free-mac-arm64.zip"> Download for macOS</a>
+          <a class="cta primary" onclick="rlDownload('final','win')" href="https://github.com/jaden2dev/ridelens-releases/releases/latest/download/Ridy-Studio-Free-win-x64-Setup.exe">🪟 Download for Windows</a>
         </div>
       </div>
     </section>
@@ -216,7 +221,7 @@
     </section>
 
     <footer>
-      RIDY Studio · Built by <a href="https://ridy.kr">ridy.kr</a> — Strava-connected AI training community ·
+      Ridy Studio · Built by <a href="https://ridy.kr">ridy.kr</a> — Strava-connected AI training community ·
       <a href="https://github.com/jaden2dev/ridelens-releases/releases">Release notes</a>
     </footer>
 
